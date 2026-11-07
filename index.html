@@ -1,0 +1,1977 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>Menuva Design Lab</title>
+    <style>
+      :root {
+        --page-bg: #f8f1e5;
+        --text-color: #145a43;
+        --glass-bg: rgba(255, 255, 255, 0.48);
+        --glass-border: rgba(255, 255, 255, 0.72);
+        --green: #087f5b;
+        --surface: rgba(255, 255, 255, 0.75);
+        --hero-text: #fff8eb;
+        --hero-description: rgba(255, 248, 235, 0.84);
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        min-height: 100vh;
+        background: #e9ecef;
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+      }
+      button {
+        font-family: inherit;
+      }
+      /* LAB TITLE */
+      .lab-title {
+        text-align: center;
+        color: #202923;
+      }
+      .lab-title h1 {
+        font-size: 24px;
+        margin-bottom: 5px;
+      }
+      .lab-title p {
+        font-size: 12px;
+        color: #737b76;
+      }
+      /* DESKTOP PREVIEW */
+      .phone-stage {
+        width: 314.4px;
+        height: 681.6px;
+        position: relative;
+      }
+      .phone {
+        width: 393px;
+        height: 852px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform: scale(0.8);
+        transform-origin: top left;
+        overflow: hidden;
+        border: 8px solid #202923;
+        border-radius: 48px;
+        background: var(--page-bg);
+        box-shadow: 0 25px 70px rgba(0, 0, 0, 0.2);
+        transition: background 0.3s ease;
+      }
+      .dynamic-island {
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 110px;
+        height: 32px;
+        background: #202923;
+        border-radius: 30px;
+        z-index: 30;
+      }
+      .screen {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        background: var(--page-bg);
+        color: var(--text-color);
+        overflow-y: auto;
+        overflow-x: hidden;
+        scrollbar-width: none;
+        transition:
+          background 0.3s ease,
+          color 0.3s ease;
+        overscroll-behavior-y: contain;
+      }
+      .screen::-webkit-scrollbar {
+        display: none;
+      }
+      /* DARK THEME */
+      .phone.dark {
+        --page-bg: #14251f;
+        --text-color: #e3f4ea;
+        --glass-bg: rgba(25, 55, 44, 0.78);
+        --glass-border: rgba(255, 255, 255, 0.14);
+        --surface: rgba(35, 65, 52, 0.95);
+        --hero-text: #f0f8f1;
+        --hero-description: rgba(235, 247, 237, 0.82);
+      }
+      .phone.dark .logo-circle {
+        background: linear-gradient(145deg, #243d32, #152c23);
+        border-color: rgba(255, 255, 255, 0.18);
+        box-shadow:
+          0 5px 20px rgba(0, 0, 0, 0.3),
+          inset 0 0 0 2px rgba(114, 221, 176, 0.2);
+      }
+      .phone.dark .logo-letter {
+        color: #72ddb0;
+      }
+      .phone.dark .nav-action {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.12);
+        color: #d8f5e5;
+      }
+      .phone.dark .bar-wrap {
+        box-shadow:
+          0 8px 24px rgba(0, 0, 0, 0.2),
+          inset 0 1px 1px rgba(255, 255, 255, 0.08);
+      }
+      .phone.dark .language-menu {
+        background: rgba(26, 48, 39, 0.97);
+        border-color: rgba(255, 255, 255, 0.12);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+      }
+      .phone.dark .language-option {
+        color: #e3f4ea;
+      }
+      .phone.dark .language-option:hover,
+      .phone.dark .language-option.active {
+        background: rgba(16, 185, 129, 0.16);
+        color: #72ddb0;
+      }
+      .phone.dark .hero {
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+      }
+      /* TOP BAR */
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        width: 100%;
+        height: 105px;
+        padding-top: 13px;
+        background: transparent;
+      }
+      .bar-wrap {
+        position: relative;
+        height: 68px;
+        margin-inline: 12px;
+        border-radius: 50px;
+        isolation: isolate;
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        -webkit-backdrop-filter: blur(18px) saturate(155%);
+        backdrop-filter: blur(18px) saturate(155%);
+        box-shadow:
+          0 8px 24px rgba(16, 185, 129, 0.12),
+          inset 0 1px 1px rgba(255, 255, 255, 0.75);
+        transition:
+          background 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+      /* SOFT GLASS REFLECTION */
+      .bar-wrap::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        pointer-events: none;
+        z-index: 2;
+        background: linear-gradient(
+          110deg,
+          transparent 0%,
+          transparent 35%,
+          rgba(255, 255, 255, 0) 43%,
+          rgba(255, 255, 255, 0.12) 48%,
+          rgba(255, 255, 255, 0.38) 51%,
+          rgba(255, 255, 255, 0.12) 55%,
+          transparent 63%,
+          transparent 100%
+        );
+        background-size: 250% 100%;
+        background-position: 100% 0;
+        animation: glassReflection 7s ease-in-out infinite;
+        clip-path: inset(0 round 50px);
+      }
+      .phone.dark .bar-wrap::after {
+        background-image: linear-gradient(
+          110deg,
+          transparent 0%,
+          transparent 35%,
+          rgba(180, 255, 220, 0) 43%,
+          rgba(180, 255, 220, 0.08) 48%,
+          rgba(180, 255, 220, 0.22) 51%,
+          rgba(180, 255, 220, 0.08) 55%,
+          transparent 63%,
+          transparent 100%
+        );
+      }
+      @keyframes glassReflection {
+        0%,
+        15% {
+          background-position: 100% 0;
+        }
+        65%,
+        100% {
+          background-position: -100% 0;
+        }
+      }
+      /* MENU TITLE */
+      .menu-title {
+        position: absolute;
+        left: 50%;
+        top: 0;
+        width: 110px;
+        height: 68px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transform: translateX(-50%);
+        color: var(--text-color);
+        font-size: 21px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        z-index: 3;
+        opacity: 1;
+        transition:
+          transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+          opacity 0.3s ease;
+      }
+      /* NAV BUTTON */
+      .nav-toggle {
+        position: absolute;
+        inset-inline-end: 8px;
+        top: 0;
+        width: 48px;
+        height: 68px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 0;
+        background: transparent;
+        color: var(--text-color);
+        cursor: pointer;
+        z-index: 6;
+      }
+      .nav-toggle svg {
+        width: 27px;
+        height: 27px;
+        overflow: visible;
+      }
+      .nav-toggle svg path {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+        transform-origin: center;
+        transition:
+          transform 0.4s ease,
+          opacity 0.25s ease;
+      }
+      /* ACTIONS */
+      .nav-actions {
+        position: absolute;
+        inset-inline-end: 62px;
+        top: 0;
+        height: 68px;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        opacity: 0;
+        transform: translateX(18px);
+        pointer-events: none;
+        transition:
+          opacity 0.35s ease,
+          transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+        z-index: 4;
+      }
+      .phone[dir="ltr"] .nav-actions {
+        transform: translateX(-18px);
+      }
+      .nav-action {
+        width: 38px;
+        height: 38px;
+        flex: 0 0 38px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-color);
+        background: var(--surface);
+        border: 1px solid rgba(20, 90, 67, 0.1);
+        box-shadow: 0 2px 8px rgba(20, 90, 67, 0.06);
+        cursor: pointer;
+        position: relative;
+        transition:
+          background 0.2s ease,
+          transform 0.2s ease,
+          color 0.2s ease;
+      }
+      .nav-action:hover {
+        transform: translateY(-2px);
+      }
+      .nav-action svg {
+        width: 19px;
+        height: 19px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      /* THEME ICONS */
+      #themeButton {
+        position: relative;
+      }
+      #themeButton svg {
+        width: 19px;
+        height: 19px;
+        position: absolute;
+        transition:
+          opacity 0.3s ease,
+          transform 0.4s ease;
+      }
+      .theme-moon {
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+      }
+      .theme-sun {
+        opacity: 0;
+        transform: rotate(-90deg) scale(0.5);
+      }
+      .phone.dark .theme-moon {
+        opacity: 0;
+        transform: rotate(90deg) scale(0.5);
+      }
+      .phone.dark .theme-sun {
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+      }
+      /* STAGGERED ACTIONS */
+      .nav-action:nth-child(1) {
+        transition-delay: 0.04s;
+      }
+      .nav-action:nth-child(2) {
+        transition-delay: 0.09s;
+      }
+      .nav-action:nth-child(3) {
+        transition-delay: 0.14s;
+      }
+      .nav-action:nth-child(4) {
+        transition-delay: 0.19s;
+      }
+      /* OPEN STATE */
+      .bar-wrap.is-open .nav-actions {
+        opacity: 1;
+        transform: translateX(0);
+        pointer-events: auto;
+      }
+      .bar-wrap.is-open .menu-title {
+        opacity: 0;
+        transform: translateX(-50%) scale(0.92);
+      }
+      .bar-wrap.is-open .nav-toggle svg path:nth-child(1) {
+        transform: translateY(5px) rotate(45deg);
+      }
+      .bar-wrap.is-open .nav-toggle svg path:nth-child(2) {
+        opacity: 0;
+      }
+      .bar-wrap.is-open .nav-toggle svg path:nth-child(3) {
+        transform: translateY(-5px) rotate(-45deg);
+      }
+      /* LOGO */
+      .logo-circle {
+        position: absolute;
+        inset-inline-start: 0;
+        top: 50%;
+        width: 92px;
+        height: 92px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.98),
+          rgba(232, 250, 242, 0.94)
+        );
+        border: 2px solid rgba(255, 255, 255, 0.95);
+        box-shadow:
+          0 5px 20px rgba(16, 185, 129, 0.18),
+          inset 0 0 0 2px rgba(16, 185, 129, 0.2),
+          inset 0 2px 5px rgba(255, 255, 255, 0.9);
+        z-index: 8;
+        pointer-events: none;
+        transform: translateY(-50%);
+        transform-origin: right center;
+        transition:
+          transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+          box-shadow 0.35s ease,
+          background 0.3s ease;
+      }
+      .logo-letter {
+        color: #087f5b;
+        font-family: Georgia, serif;
+        font-size: 36px;
+        font-weight: 900;
+        transition:
+          color 0.3s ease,
+          transform 0.5s ease;
+      }
+      /* LOGO SHRINK ON SCROLL */
+      .phone[dir="ltr"] .logo-circle {
+        transform-origin: left center;
+      }
+      .phone[dir="rtl"] .logo-circle {
+        transform-origin: right center;
+      }
+      /* LOGO COMPACT POSITION */
+
+      .phone[dir="rtl"].logo-compact .logo-circle {
+        transform: translate(-3px, -50%) scale(0.68);
+        box-shadow:
+          0 3px 12px rgba(16, 185, 129, 0.16),
+          inset 0 0 0 2px rgba(16, 185, 129, 0.16);
+      }
+
+      .phone[dir="ltr"].logo-compact .logo-circle {
+        transform: translate(3px, -50%) scale(0.68);
+        box-shadow:
+          0 3px 12px rgba(16, 185, 129, 0.16),
+          inset 0 0 0 2px rgba(16, 185, 129, 0.16);
+      }
+      .phone.logo-compact .logo-letter {
+        transform: scale(0.92);
+      }
+      /* LANGUAGE POPOVER */
+      .language-menu {
+        position: absolute;
+        top: 76px;
+        inset-inline-end: 55px;
+        width: 155px;
+        padding: 7px;
+        border-radius: 15px;
+        background: rgba(255, 255, 255, 0.96);
+        border: 1px solid rgba(16, 185, 129, 0.15);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-8px);
+        transition: 0.25s ease;
+        z-index: 50;
+      }
+      .language-menu.visible {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+      .language-option {
+        width: 100%;
+        border: 0;
+        border-radius: 9px;
+        padding: 10px;
+        text-align: start;
+        background: transparent;
+        color: #145a43;
+        font-size: 13px;
+        cursor: pointer;
+        transition:
+          background 0.2s ease,
+          color 0.2s ease;
+      }
+      .language-option:hover,
+      .language-option.active {
+        background: #e7f6ee;
+        color: #087f5b;
+      }
+      /* --------------------------------
+   RESTAURANT HERO
+\--------------------------------- */
+      .hero {
+        position: relative;
+        height: 365px;
+        margin: 0 12px;
+        border-radius: 27px;
+        overflow: hidden;
+        isolation: isolate;
+        background: #24372e;
+        box-shadow: 0 12px 30px rgba(20, 50, 35, 0.12);
+        transition:
+          box-shadow 0.35s ease,
+          border-radius 0.35s ease;
+      }
+      /* SLIDES */
+      .hero-slides {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+      }
+      .hero-slide {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        background-size: cover;
+        background-position: center;
+        opacity: 0;
+        transform: scale(1.045);
+        transition:
+          opacity 1s ease,
+          transform 5s ease;
+      }
+      .hero-slide.active {
+        opacity: 1;
+        transform: scale(1);
+      }
+      /* FOUR-SIDE VIGNETTE */
+      .hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        background:
+          linear-gradient(
+            to top,
+            rgba(8, 18, 13, 0.82) 0%,
+            rgba(8, 18, 13, 0.5) 36%,
+            rgba(8, 18, 13, 0.12) 75%,
+            rgba(8, 18, 13, 0.35) 100%
+          ),
+          linear-gradient(
+            to right,
+            rgba(8, 18, 13, 0.24),
+            transparent 45%,
+            rgba(8, 18, 13, 0.18)
+          ),
+          radial-gradient(
+            ellipse at center,
+            transparent 38%,
+            rgba(8, 18, 13, 0.32) 100%
+          );
+      }
+      .phone.dark .hero::before {
+        background:
+          linear-gradient(
+            to top,
+            rgba(4, 12, 8, 0.9) 0%,
+            rgba(4, 12, 8, 0.58) 42%,
+            rgba(4, 12, 8, 0.2) 78%,
+            rgba(4, 12, 8, 0.44) 100%
+          ),
+          radial-gradient(
+            ellipse at center,
+            transparent 32%,
+            rgba(0, 0, 0, 0.42) 100%
+          );
+      }
+      /* HERO CONTENT */
+      .hero-content {
+        position: absolute;
+        inset-inline: 20px;
+        bottom: 58px;
+        z-index: 2;
+        text-align: start;
+        color: var(--hero-text);
+        transition:
+          opacity 0.45s ease,
+          transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .hero-title {
+        font-size: clamp(24px, 7vw, 31px);
+        line-height: 1.25;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        color: var(--hero-text);
+        text-shadow: 0 2px 14px rgba(0, 0, 0, 0.35);
+        margin-bottom: 7px;
+        max-width: 85%;
+      }
+      .hero-description {
+        max-width: 85%;
+        color: var(--hero-description);
+        font-size: 12px;
+        line-height: 1.8;
+        font-weight: 400;
+        text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
+      }
+      /* SLIDE INDICATORS */
+      .hero-indicators {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 7px;
+        position: absolute;
+        bottom: 19px;
+        left: 0;
+        right: 0;
+        z-index: 3;
+      }
+      .hero-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 20px;
+        border: 0;
+        padding: 0;
+        background: rgba(255, 255, 255, 0.55);
+        cursor: pointer;
+        transition:
+          width 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+          background 0.3s ease,
+          transform 0.3s ease;
+      }
+      .hero-dot.active {
+        width: 21px;
+        background: #a8e8c8;
+        box-shadow: 0 0 9px rgba(168, 232, 200, 0.45);
+      }
+      .hero-dot:hover {
+        transform: scale(1.2);
+      }
+      /* HERO DIRECTION TRANSITION */
+      .screen.direction-changing .hero-content {
+        opacity: 0.55;
+        transform: translateY(5px);
+      }
+      .screen.direction-changing .hero-title,
+      .screen.direction-changing .hero-description {
+        transition: text-align 0.3s ease;
+      }
+      /* RESTAURANT STATUS & LOCATION PILL */
+      .restaurant-info-pill {
+        position: absolute;
+        z-index: 15;
+        left: 0;
+        top: 391px;
+        width: 158px;
+        min-height: 158px;
+        padding: 15px 13px 15px 10px;
+        border: 1px solid rgba(191, 255, 224, 0.52);
+        border-left: 0;
+        border-radius: 0 86px 86px 0;
+        color: #f4fff8;
+        background: rgba(255, 255, 255, 0.13);
+        -webkit-backdrop-filter: blur(42px) saturate(180%);
+        backdrop-filter: blur(42px) saturate(180%);
+        box-shadow:
+          0 9px 28px rgba(0, 0, 0, 0.3),
+          0 0 19px rgba(16, 185, 129, 0.22),
+          inset 0 1px 0 rgba(255, 255, 255, 0.23),
+          inset -1px 0 0 rgba(170, 255, 211, 0.2);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 12px;
+        overflow: hidden;
+      }
+      .restaurant-info-pill::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        pointer-events: none;
+        background: linear-gradient(
+          115deg,
+          transparent 18%,
+          rgba(255, 255, 255, 0.14) 48%,
+          transparent 72%
+        );
+      }
+      .info-pill-row {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        min-width: 0;
+      }
+      .info-pill-icon {
+        width: 30px;
+        height: 30px;
+        flex: 0 0 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /* background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.19);
+  box-shadow: 0 0 13px rgba(255,255,255,.07); */
+      }
+      .info-pill-icon svg {
+        width: 20px;
+        height: 20px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.9;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .status-icon {
+        color: #83f0b3;
+      }
+    
+      .info-pill-copy {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        min-width: 0;
+        text-align: start;
+      }
+      .info-pill-label {
+        font-size: 9px;
+        line-height: 1.25;
+        color: rgba(239, 255, 246, 0.72);
+        white-space: nowrap;
+      }
+      .info-pill-value {
+        display: block;
+        max-width: 94px;
+        font-size: 11px;
+        line-height: 1.4;
+        font-weight: 800;
+        color: #f4fff8;
+        overflow-wrap: anywhere;
+      }
+      .info-pill-value.is-open {
+        color: #83f0b3;
+      }
+      .info-pill-value.is-closed {
+        color: #ffb4a9;
+      }
+      .info-pill-divider {
+        position: relative;
+        z-index: 1;
+        height: 1px;
+        width: 84%;
+        margin-inline-start: 4px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.34),
+          transparent
+        );
+      }
+      .phone.dark .restaurant-info-pill {
+        background: rgba(8, 20, 14, 0.16);
+        -webkit-backdrop-filter: blur(44px) saturate(180%);
+        backdrop-filter: blur(44px) saturate(180%);
+        border-color: rgba(143, 239, 190, 0.4);
+        box-shadow:
+          0 9px 28px rgba(0, 0, 0, 0.44),
+          0 0 20px rgba(16, 185, 129, 0.22),
+          inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      }
+      /* FLOATING MENU SEARCH */
+      .menu-search {
+        position: absolute;
+        z-index: 16;
+        top: 443px;
+        left: 158px;
+        right: 12px;
+        height: 54px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0 17px;
+        border-radius: 30px;
+        color: #245443;
+        background: rgba(255, 255, 255, 0.76);
+        border: 1px solid rgba(255, 255, 255, 0.92);
+        -webkit-backdrop-filter: blur(24px) saturate(145%);
+        backdrop-filter: blur(24px) saturate(145%);
+        box-shadow:
+          0 8px 24px rgba(25, 55, 40, 0.12),
+          inset 0 1px 0 rgba(255, 255, 255, 0.95);
+        transition:
+          background 0.3s ease,
+          border-color 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+      .menu-search svg {
+        width: 19px;
+        height: 19px;
+        flex: 0 0 19px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+        opacity: 0.88;
+      }
+      .menu-search input {
+        width: 100%;
+        min-width: 0;
+        border: 0;
+        outline: 0;
+        background: transparent;
+        color: #245443;
+        font: inherit;
+        font-size: 12px;
+        text-align: start;
+        caret-color: #a8e8c8;
+      }
+      .menu-search input::placeholder {
+        color: rgba(36, 84, 67, 0.58);
+        opacity: 1;
+      }
+      .phone.dark .menu-search {
+        background: rgba(24, 43, 34, 0.72);
+        border-color: rgba(255, 255, 255, 0.18);
+        color: #edf8f0;
+        box-shadow:
+          0 8px 25px rgba(0, 0, 0, 0.28),
+          inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      }
+      .phone.dark .menu-search input {
+        color: #f0f8f1;
+      }
+      .phone.dark .menu-search input::placeholder {
+        color: rgba(240, 248, 241, 0.62);
+      }
+      /* SCROLL TEST CONTENT */
+      .scroll-demo {
+        position: relative;
+        padding: 112px 16px 45px;
+        min-height: 1100px;
+        color: var(--text-color);
+      }
+      .scroll-demo-heading {
+        margin-bottom: 22px;
+      }
+      .scroll-demo-label {
+        display: inline-block;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        color: #087f5b;
+        margin-bottom: 9px;
+      }
+      .phone.dark .scroll-demo-label {
+        color: #72ddb0;
+      }
+      .scroll-demo-heading h2 {
+        font-size: 21px;
+        font-weight: 800;
+        margin-bottom: 8px;
+      }
+      .scroll-demo-heading p {
+        font-size: 12px;
+        line-height: 1.8;
+        opacity: 0.7;
+      }
+      .scroll-demo-card {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 16px;
+        margin-bottom: 12px;
+        min-height: 95px;
+        border-radius: 18px;
+        background: var(--surface);
+        border: 1px solid rgba(16, 185, 129, 0.1);
+        box-shadow: 0 5px 18px rgba(20, 90, 67, 0.04);
+        transition:
+          background 0.3s ease,
+          transform 0.3s ease;
+      }
+      .scroll-demo-icon {
+        width: 54px;
+        height: 54px;
+        flex: 0 0 54px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 16px;
+        background: rgba(16, 185, 129, 0.1);
+        font-size: 27px;
+      }
+      .scroll-demo-card h3 {
+        font-size: 14px;
+        font-weight: 700;
+        margin-bottom: 6px;
+      }
+      .scroll-demo-card p {
+        font-size: 11px;
+        line-height: 1.7;
+        opacity: 0.7;
+      }
+      .scroll-demo-footer {
+        margin-top: 65px;
+        padding: 30px 10px;
+        text-align: center;
+        opacity: 0.65;
+      }
+      .scroll-demo-footer span {
+        font-family: Georgia, serif;
+        font-size: 25px;
+        font-weight: 900;
+      }
+      .scroll-demo-footer p {
+        margin-top: 8px;
+        font-size: 10px;
+      }
+      /* CONTROL PANEL DEMO */
+      .modal-backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.38);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        opacity: 0;
+        visibility: hidden;
+        transition: 0.25s ease;
+        z-index: 100;
+      }
+      .modal-backdrop.visible {
+        opacity: 1;
+        visibility: visible;
+      }
+      .modal {
+        width: 100%;
+        max-width: 310px;
+        padding: 24px;
+        border-radius: 22px;
+        background: var(--page-bg);
+        color: var(--text-color);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.22);
+        transform: translateY(12px) scale(0.97);
+        transition: 0.3s ease;
+      }
+      .modal-backdrop.visible .modal {
+        transform: translateY(0) scale(1);
+      }
+      .modal h2 {
+        font-size: 20px;
+        margin-bottom: 10px;
+      }
+      .modal p {
+        font-size: 13px;
+        line-height: 1.7;
+        opacity: 0.8;
+      }
+      .modal-close {
+        margin-top: 18px;
+        padding: 10px 20px;
+        border: 0;
+        border-radius: 12px;
+        background: #087f5b;
+        color: white;
+        cursor: pointer;
+      }
+      /* REAL PHONE */
+      @media (max-width: 600px) {
+        body {
+          display: block;
+          min-height: 100dvh;
+          background: #f8f1e5;
+        }
+        .lab-title,
+        .dynamic-island {
+          display: none;
+        }
+        .phone-stage {
+          width: 100%;
+          height: 100dvh;
+        }
+        .phone {
+          position: relative;
+          width: 100%;
+          height: 100dvh;
+          min-height: 100dvh;
+          transform: none;
+          border: none;
+          border-radius: 0;
+          box-shadow: none;
+        }
+        .screen {
+          min-height: 100%;
+        }
+        .topbar {
+          padding-top: max(13px, env(safe-area-inset-top));
+        }
+        .hero {
+          height: 365px;
+        }
+      }
+      /* REDUCED MOTION */
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          transition-duration: 0.01ms !important;
+          animation-duration: 0.01ms !important;
+          scroll-behavior: auto !important;
+        }
+      }
+      /* ==========================================
+   MENUVA - DESIGN REFINEMENTS
+   ========================================== */
+
+      /* 1. MENU TITLE: SLIDE BEHIND THE LOGO */
+
+      /* Keep the title visible while it moves */
+      .menu-title {
+        opacity: 1;
+        z-index: 3;
+        will-change: transform;
+        transition:
+          transform 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+          opacity 0.3s ease;
+      }
+
+      /* Arabic: logo is on the right */
+      .phone[dir="rtl"] .bar-wrap.is-open .menu-title {
+        opacity: 1;
+        transform: translateX(calc(-50% + 145px)) scale(0.88);
+      }
+
+      /* English and Kurdish: logo is on the left */
+      .phone[dir="ltr"] .bar-wrap.is-open .menu-title {
+        opacity: 1;
+        transform: translateX(calc(-50% - 145px)) scale(0.88);
+      }
+
+      /* The logo must stay visually above the title */
+      .logo-circle {
+        z-index: 8;
+        position: absolute;
+      }
+
+      /* 2. RESTAURANT STATUS AND LOCATION PILL */
+
+      /* Darker glass background for readable text and icons */
+      .restaurant-info-pill {
+        background: rgba(13, 43, 30, 0.78);
+        color: #ffffff;
+        -webkit-backdrop-filter: blur(30px) saturate(155%);
+        backdrop-filter: blur(30px) saturate(155%);
+        border-color: rgba(191, 255, 224, 0.58);
+
+        box-shadow:
+          0 9px 28px rgba(0, 0, 0, 0.28),
+          0 0 19px rgba(16, 185, 129, 0.25),
+          inset 0 1px 0 rgba(255, 255, 255, 0.24),
+          inset -1px 0 0 rgba(170, 255, 211, 0.24);
+      }
+
+      /* Labels */
+      .info-pill-label {
+        color: #ffffff;
+        font-weight: 700;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+      }
+
+      /* Main information */
+      .info-pill-value {
+        color: #ffffff;
+        font-weight: 800;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+      }
+
+      /* Open status */
+      .info-pill-value.is-open {
+        color: #9cffc5;
+      }
+
+      /* Closed status */
+      .info-pill-value.is-closed {
+        color: #ffd0c9;
+      }
+
+      /* Status and location icons */
+      .info-pill-icon {
+        /* background: rgba(255,255,255,.16);
+  border-color: rgba(255,255,255,.30);
+  box-shadow: 0 0 13px rgba(255,255,255,.10); */
+      }
+
+      .status-icon {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: visible;
+      }
+
+      .status-pulse {
+        position: relative;
+        width: 9px;
+        height: 9px;
+        display: block;
+        border-radius: 50%;
+        background: #39e98b;
+        box-shadow:
+          0 0 7px rgba(57, 233, 139, 0.85),
+          0 0 14px rgba(57, 233, 139, 0.45);
+        z-index: 2;
+      }
+
+      .status-pulse::before,
+      .status-pulse::after {
+        content: "";
+        position: absolute;
+        inset: -4px;
+        border: 0.8px solid rgba(57, 233, 139, 0.85);
+        border-radius: 50%;
+        animation: statusRipple 2s ease-out infinite;
+        pointer-events: none;
+      }
+
+      .status-pulse::after {
+        animation-delay: 1.2s;
+      }
+
+      @keyframes statusRipple {
+        0% {
+          transform: scale(0.7);
+          opacity: 0.5;
+        }
+
+        100% {
+          transform: scale(3.2);
+          opacity: 0;
+        }
+      }
+
+      .location-icon {
+        color: #b8dfff;
+      }
+
+      /* Divider */
+      .info-pill-divider {
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.62),
+          transparent
+        );
+      }
+
+      /* Dark mode pill */
+      .phone.dark .restaurant-info-pill {
+        background: rgba(10, 29, 21, 0.82);
+        border-color: rgba(143, 239, 190, 0.52);
+
+        box-shadow:
+          0 9px 28px rgba(0, 0, 0, 0.48),
+          0 0 20px rgba(16, 185, 129, 0.25),
+          inset 0 1px 0 rgba(255, 255, 255, 0.18);
+      }
+
+      /* 3. SEARCH BAR: KEEP IT LIGHT IN BOTH MODES */
+
+      .menu-search {
+        background: rgba(255, 255, 255, 0.88);
+        border: 1px solid rgba(255, 255, 255, 0.98);
+        color: #245443;
+
+        box-shadow:
+          0 8px 24px rgba(25, 55, 40, 0.12),
+          inset 0 1px 0 rgba(255, 255, 255, 0.98);
+      }
+
+      .menu-search input {
+        color: #245443;
+      }
+
+      .menu-search input::placeholder {
+        color: rgba(36, 84, 67, 0.62);
+        opacity: 1;
+      }
+
+      /* Same light search appearance in dark mode */
+      .phone.dark .menu-search {
+        background: rgba(255, 255, 255, 0.88);
+        border-color: rgba(255, 255, 255, 0.98);
+        color: #245443;
+
+        box-shadow:
+          0 8px 25px rgba(0, 0, 0, 0.2),
+          0 0 12px rgba(180, 255, 215, 0.16),
+          inset 0 1px 0 rgba(255, 255, 255, 0.98);
+      }
+
+      .phone.dark .menu-search input {
+        color: #245443;
+      }
+
+      .phone.dark .menu-search input::placeholder {
+        color: rgba(36, 84, 67, 0.62);
+      }
+
+      /* 4. HERO IMAGE CARD: SUBTLE GLOWING BORDER */
+
+      /* Light mode */
+      .hero {
+        border: 1px solid rgba(211, 255, 231, 0.58);
+
+        box-shadow:
+          0 12px 30px rgba(20, 50, 35, 0.16),
+          0 0 0 1px rgba(255, 255, 255, 0.18),
+          0 0 17px rgba(16, 185, 129, 0.24),
+          inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+      }
+
+      /* Dark mode */
+      .phone.dark .hero {
+        border-color: rgba(157, 235, 190, 0.48);
+
+        box-shadow:
+          0 12px 30px rgba(0, 0, 0, 0.32),
+          0 0 0 1px rgba(255, 255, 255, 0.12),
+          0 0 18px rgba(114, 221, 176, 0.22),
+          inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+      }
+
+      /* 5. MOVE RESTAURANT NAME AND DESCRIPTION UP */
+
+      .hero-content {
+        bottom: 105px;
+      }
+
+      /* 6. MOVE IMAGE INDICATORS UP */
+
+      .hero-indicators {
+        bottom: 61px;
+      }
+
+      /* Make indicators clearer */
+      .hero-dot {
+        background: rgba(255, 255, 255, 0.72);
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+      }
+
+      .hero-dot.active {
+        background: #a8e8c8;
+        box-shadow:
+          0 0 9px rgba(168, 232, 200, 0.55),
+          0 1px 5px rgba(0, 0, 0, 0.2);
+      }
+      /* DARK MODE - LIGHTER GLASS TOP BAR */
+      .phone.dark .bar-wrap {
+        background: rgba(47, 76, 62, 0.68);
+        border-color: rgba(190, 235, 210, 0.2);
+
+        -webkit-backdrop-filter: blur(14px) saturate(150%);
+        backdrop-filter: blur(14px) saturate(150%);
+
+        box-shadow:
+          0 8px 24px rgba(0, 0, 0, 0.16),
+          inset 0 1px 1px rgba(255, 255, 255, 0.16),
+          inset 0 -1px 0 rgba(190, 235, 210, 0.08);
+      }
+
+      /* DARK MODE - LIGHTER STATUS SEMICIRCLE */
+      .phone.dark .restaurant-info-pill {
+        background: rgba(29, 55, 43, 0.76);
+        border-color: rgba(165, 230, 190, 0.42);
+
+        -webkit-backdrop-filter: blur(23px) saturate(145%);
+        backdrop-filter: blur(23px) saturate(145%);
+
+        box-shadow:
+          0 8px 25px rgba(0, 0, 0, 0.3),
+          0 0 16px rgba(16, 185, 129, 0.18),
+          inset 0 1px 0 rgba(255, 255, 255, 0.2),
+          inset -1px 0 0 rgba(190, 255, 215, 0.18);
+      }
+    </style>
+  </head>
+  <body>
+    <header class="lab-title">
+      <h1>Menuva</h1>
+      <p>Design Laboratory</p>
+    </header>
+    <div class="phone-stage">
+      <main class="phone" id="phone" dir="rtl">
+        <div class="dynamic-island"></div>
+        <div class="screen" id="screen" dir="rtl">
+          <!-- TOP BAR -->
+          <header class="topbar">
+            <div class="bar-wrap" id="barWrap">
+              <button
+                class="nav-toggle"
+                id="navToggle"
+                aria-label="فتح القائمة"
+                aria-expanded="false"
+                type="button"
+              >
+                <svg viewBox="0 0 24 24">
+                  <path d="M4 7H20" />
+                  <path d="M4 12H20" />
+                  <path d="M4 17H20" />
+                </svg>
+              </button>
+              <div class="menu-title" id="menuTitle">Menu</div>
+              <div class="nav-actions">
+                <button
+                  class="nav-action"
+                  id="adminButton"
+                  type="button"
+                  title="لوحة التحكم"
+                  aria-label="لوحة التحكم"
+                >
+                  <svg viewBox="0 0 24 24">
+                    <path
+                      d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.1-3.1a6 6 0 0 1-7.9 7.9l-6.8 6.8a2.1 2.1 0 0 1-3-3l6.8-6.8a6 6 0 0 1 7.9-7.9z"
+                    />
+                  </svg>
+                </button>
+                <button
+                  class="nav-action"
+                  id="languageButton"
+                  type="button"
+                  title="تغيير اللغة"
+                  aria-label="تغيير اللغة"
+                >
+                  <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="9" />
+                    <path d="M3 12h18" />
+                    <path d="M12 3a14 14 0 0 1 0 18" />
+                    <path d="M12 3a14 14 0 0 0 0 18" />
+                  </svg>
+                </button>
+                <button
+                  class="nav-action"
+                  id="fullscreenButton"
+                  type="button"
+                  title="ملء الشاشة"
+                  aria-label="ملء الشاشة"
+                >
+                  <svg viewBox="0 0 24 24">
+                    <path d="M8 3H3v5" />
+                    <path d="M16 3h5v5" />
+                    <path d="M3 16v5h5" />
+                    <path d="M21 16v5h-5" />
+                  </svg>
+                </button>
+                <button
+                  class="nav-action"
+                  id="themeButton"
+                  type="button"
+                  title="الوضع الليلي"
+                  aria-label="الوضع الليلي"
+                >
+                  <svg class="theme-moon" viewBox="0 0 24 24">
+                    <path
+                      d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5 8.5 8.5 0 1 0 20.5 14.2Z"
+                    />
+                  </svg>
+                  <svg class="theme-sun" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="4" />
+                    <path d="M12 2v2" />
+                    <path d="M12 20v2" />
+                    <path d="m4.93 4.93 1.42 1.42" />
+                    <path d="m17.65 17.65 1.42 1.42" />
+                    <path d="M2 12h2" />
+                    <path d="M20 12h2" />
+                    <path d="m4.93 19.07 1.42-1.42" />
+                    <path d="m17.65 6.35 1.42-1.42" />
+                  </svg>
+                </button>
+              </div>
+              <!-- LOGO -->
+              <div class="logo-circle" id="logoCircle">
+                <span class="logo-letter">M</span>
+              </div>
+              <!-- LANGUAGE MENU -->
+              <div class="language-menu" id="languageMenu">
+                <button
+                  class="language-option active"
+                  data-lang="ar"
+                  type="button"
+                >
+                  العربية
+                </button>
+                <button class="language-option" data-lang="en" type="button">
+                  English
+                </button>
+                <button class="language-option" data-lang="ku" type="button">
+                  Kurdî (Kurmancî)
+                </button>
+              </div>
+            </div>
+          </header>
+          <!-- RESTAURANT HERO -->
+          <section class="hero" id="hero">
+            <div class="hero-slides" id="heroSlides">
+              <div
+                class="hero-slide active"
+                style="
+                  background-image: url(&quot;https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1200&q=85&quot;);
+                "
+              ></div>
+              <div
+                class="hero-slide"
+                style="
+                  background-image: url(&quot;https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=85&quot;);
+                "
+              ></div>
+              <div
+                class="hero-slide"
+                style="
+                  background-image: url(&quot;https://images.unsplash.com/photo-1515003197210-e0cd7184f8b5?auto=format&fit=crop&w=1200&q=85&quot;);
+                "
+              ></div>
+            </div>
+            <div class="hero-content" id="heroContent">
+              <h1 class="hero-title" id="heroTitle">مطعم دار الياسمين</h1>
+              <p class="hero-description" id="heroDescription">
+                نكهة مميزة، أجواء دافئة، وتجربة طعام لا تُنسى.
+              </p>
+            </div>
+            <div class="hero-indicators" id="heroIndicators">
+              <button
+                class="hero-dot active"
+                data-slide="0"
+                aria-label="الصورة الأولى"
+                type="button"
+              ></button>
+              <button
+                class="hero-dot"
+                data-slide="1"
+                aria-label="الصورة الثانية"
+                type="button"
+              ></button>
+              <button
+                class="hero-dot"
+                data-slide="2"
+                aria-label="الصورة الثالثة"
+                type="button"
+              ></button>
+            </div>
+          </section>
+          <!-- RESTAURANT STATUS & LOCATION -->
+          <aside class="restaurant-info-pill" aria-label="معلومات المطعم">
+            <div class="info-pill-row">
+              <span class="info-pill-icon status-icon" aria-hidden="true">
+                <span class="status-pulse"></span>
+              </span>
+              <div class="info-pill-copy">
+                <span class="info-pill-label" id="statusLabel"
+                  >حالة المطعم</span
+                >
+                <strong class="info-pill-value is-open" id="restaurantStatus"
+                  >مفتوح الآن</strong
+                >
+              </div>
+            </div>
+            <span class="info-pill-divider"></span>
+            <div class="info-pill-row">
+              <span class="info-pill-icon location-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" style="fill: #dfaf6b; color:#202923a6">
+                  <path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z" />
+                  <circle cx="12" cy="10" r="2.5" />
+                </svg>
+              </span>
+              <div class="info-pill-copy">
+                <span class="info-pill-label" id="locationLabel"
+                  >موقع المطعم</span
+                >
+                <strong class="info-pill-value" id="restaurantLocation"
+                  >القامشلي، سوريا</strong
+                >
+              </div>
+            </div>
+          </aside>
+          <!-- FLOATING MENU SEARCH -->
+          <div class="menu-search" role="search">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="10.8" cy="10.8" r="6.8"></circle>
+              <path d="m16 16 4.5 4.5"></path>
+            </svg>
+            <input
+              id="menuSearchInput"
+              type="search"
+              autocomplete="off"
+              placeholder="ابحث عن صنف في القائمة..."
+              aria-label="ابحث عن صنف في القائمة"
+            />
+          </div>
+          <!-- SCROLL TEST CONTENT -->
+          <section
+            class="scroll-demo"
+            aria-label="محتوى تجريبي لاختبار التمرير"
+          >
+            <div class="scroll-demo-heading">
+              <span class="scroll-demo-label">MENUVA PREVIEW</span>
+              <h2 id="scrollHeading">اختبار حركة اللوغو</h2>
+              <p id="scrollIntro">
+                انزل للأسفل ثم اصعد للأعلى لمشاهدة حركة اللوغو.
+              </p>
+            </div>
+            <div class="scroll-demo-card">
+              <div class="scroll-demo-icon">🍽️</div>
+              <div>
+                <h3 id="demoCat1">الأطباق الرئيسية</h3>
+                <p id="demoDesc1">
+                  مجموعة من الأطباق المحضرة بعناية وبمكونات طازجة.
+                </p>
+              </div>
+            </div>
+            <div class="scroll-demo-card">
+              <div class="scroll-demo-icon">🥗</div>
+              <div>
+                <h3 id="demoCat2">المقبلات والسلطات</h3>
+                <p id="demoDesc2">
+                  تشكيلة متنوعة من المقبلات والسلطات الطازجة.
+                </p>
+              </div>
+            </div>
+            <div class="scroll-demo-card">
+              <div class="scroll-demo-icon">🍹</div>
+              <div>
+                <h3 id="demoCat3">المشروبات</h3>
+                <p id="demoDesc3">
+                  تشكيلة متنوعة من المشروبات الباردة والساخنة.
+                </p>
+              </div>
+            </div>
+            <div class="scroll-demo-card">
+              <div class="scroll-demo-icon">🍰</div>
+              <div>
+                <h3 id="demoCat4">الحلويات</h3>
+                <p id="demoDesc4">حلويات لذيذة لتكتمل تجربتك معنا.</p>
+              </div>
+            </div>
+            <div class="scroll-demo-card">
+              <div class="scroll-demo-icon">☕</div>
+              <div>
+                <h3 id="demoCat5">القهوة</h3>
+                <p id="demoDesc5">قهوة مختارة بعناية لمحبي القهوة.</p>
+              </div>
+            </div>
+            <div class="scroll-demo-card">
+              <div class="scroll-demo-icon">🍕</div>
+              <div>
+                <h3 id="demoCat6">الوجبات الخاصة</h3>
+                <p id="demoDesc6">اختيارات مميزة من مطبخنا.</p>
+              </div>
+            </div>
+            <div class="scroll-demo-footer">
+              <span>Menuva</span>
+              <p id="scrollFooter">
+                حرّك الصفحة للأعلى والأسفل لاختبار التجربة
+              </p>
+            </div>
+          </section>
+        </div>
+        <!-- CONTROL PANEL MODAL -->
+        <div class="modal-backdrop" id="adminModal">
+          <div class="modal">
+            <h2 id="modalTitle">لوحة التحكم</h2>
+            <p id="modalDescription">
+              هذه معاينة لزر لوحة التحكم في مختبر التصميم. سيتم ربطه لاحقاً
+              بلوحة إدارة المطعم الفعلية.
+            </p>
+            <button class="modal-close" id="modalClose" type="button">
+              إغلاق
+            </button>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script>
+      const phone = document.getElementById("phone");
+      const screen = document.getElementById("screen");
+      const barWrap = document.getElementById("barWrap");
+      const navToggle = document.getElementById("navToggle");
+      const languageButton = document.getElementById("languageButton");
+      const languageMenu = document.getElementById("languageMenu");
+      const fullscreenButton = document.getElementById("fullscreenButton");
+      const themeButton = document.getElementById("themeButton");
+      const adminButton = document.getElementById("adminButton");
+      const adminModal = document.getElementById("adminModal");
+      const modalClose = document.getElementById("modalClose");
+      const hero = document.getElementById("hero");
+      const heroTitle = document.getElementById("heroTitle");
+      const heroDescription = document.getElementById("heroDescription");
+      const heroSlides = [...document.querySelectorAll(".hero-slide")];
+      const heroDots = [...document.querySelectorAll(".hero-dot")];
+      let menuOpen = false;
+      let currentLanguage = "ar";
+      let currentSlide = 0;
+      let autoplayTimer = null;
+      let touchStartX = 0;
+      let lastScrollTop = 0;
+      const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      /* TRANSLATIONS */
+      // Demo data only. Later these values will come from the restaurant profile and opening hours.
+      const restaurantInfo = {
+        isOpen: true,
+        location: "القامشلي، سوريا",
+      };
+      const translations = {
+        ar: {
+          dir: "rtl",
+          menu: "Menu",
+          openMenu: "فتح القائمة",
+          closeMenu: "إغلاق القائمة",
+          admin: "لوحة التحكم",
+          changeLanguage: "تغيير اللغة",
+          fullscreen: "ملء الشاشة",
+          exitFullscreen: "إلغاء ملء الشاشة",
+          darkMode: "الوضع الليلي",
+          lightMode: "الوضع الفاتح",
+          restaurant: "مطعم دار الياسمين",
+          description: "نكهة مميزة، أجواء دافئة، وتجربة طعام لا تُنسى.",
+          modalTitle: "لوحة التحكم",
+          modalDescription:
+            "هذه معاينة لزر لوحة التحكم في مختبر التصميم. سيتم ربطه لاحقاً بلوحة إدارة المطعم الفعلية.",
+          close: "إغلاق",
+          statusLabel: "حالة المطعم",
+          statusOpen: "مفتوح الآن",
+          statusClosed: "مغلق الآن",
+          locationLabel: "موقع المطعم",
+          locationValue: "القامشلي، سوريا",
+          searchPlaceholder: "ابحث عن صنف في القائمة...",
+          scrollHeading: "اختبار حركة اللوغو",
+          scrollIntro: "انزل للأسفل ثم اصعد للأعلى لمشاهدة حركة اللوغو.",
+          scrollFooter: "حرّك الصفحة للأعلى والأسفل لاختبار التجربة",
+          demoCats: [
+            "الأطباق الرئيسية",
+            "المقبلات والسلطات",
+            "المشروبات",
+            "الحلويات",
+            "القهوة",
+            "الوجبات الخاصة",
+          ],
+          demoDescs: [
+            "مجموعة من الأطباق المحضرة بعناية وبمكونات طازجة.",
+            "تشكيلة متنوعة من المقبلات والسلطات الطازجة.",
+            "تشكيلة متنوعة من المشروبات الباردة والساخنة.",
+            "حلويات لذيذة لتكتمل تجربتك معنا.",
+            "قهوة مختارة بعناية لمحبي القهوة.",
+            "اختيارات مميزة من مطبخنا.",
+          ],
+        },
+        en: {
+          dir: "ltr",
+          menu: "Menu",
+          openMenu: "Open menu",
+          closeMenu: "Close menu",
+          admin: "Admin panel",
+          changeLanguage: "Change language",
+          fullscreen: "Fullscreen",
+          exitFullscreen: "Exit fullscreen",
+          darkMode: "Dark mode",
+          lightMode: "Light mode",
+          restaurant: "Jasmine House Restaurant",
+          description:
+            "Distinctive flavors, warm atmosphere, and an unforgettable dining experience.",
+          modalTitle: "Admin panel",
+          modalDescription:
+            "This is a preview of the admin panel button. It will later connect to the restaurant management dashboard.",
+          close: "Close",
+          statusLabel: "Restaurant status",
+          statusOpen: "Open now",
+          statusClosed: "Closed now",
+          locationLabel: "Location",
+          locationValue: "Qamishli, Syria",
+          searchPlaceholder: "Search for a menu item...",
+          scrollHeading: "Logo scroll test",
+          scrollIntro: "Scroll down and then up to see the logo animation.",
+          scrollFooter: "Scroll up and down to test the experience",
+          demoCats: [
+            "Main courses",
+            "Starters & salads",
+            "Drinks",
+            "Desserts",
+            "Coffee",
+            "Special meals",
+          ],
+          demoDescs: [
+            "Carefully prepared dishes made with fresh ingredients.",
+            "A varied selection of fresh starters and salads.",
+            "A selection of hot and cold drinks.",
+            "Delicious desserts to complete your experience.",
+            "Carefully selected coffee for coffee lovers.",
+            "Special choices from our kitchen.",
+          ],
+        },
+        ku: {
+          dir: "ltr",
+          menu: "Menu",
+          openMenu: "Vekirina menuyê",
+          closeMenu: "Girtina menuyê",
+          admin: "Panela rêveberiyê",
+          changeLanguage: "Zimanê biguherîne",
+          fullscreen: "Dîmender tevahî",
+          exitFullscreen: "Derkeve ji dîmendera tevahî",
+          darkMode: "Moda tarî",
+          lightMode: "Moda ronahî",
+          restaurant: "Xwarinxaneya Mala Yasemîn",
+          description:
+            "Tamên taybet, atmosfera germ û ezmûneke xwarinê ya bêhempa.",
+          modalTitle: "Panela rêveberiyê",
+          modalDescription: "Ev pêşdîtineke ji panela rêveberiyê ye.",
+          close: "Bigire",
+          statusLabel: "Rewşa xwarinxaneyê",
+          statusOpen: "Niha vekirî ye",
+          statusClosed: "Niha girtî ye",
+          locationLabel: "Cih",
+          locationValue: "Qamişlo, Sûriye",
+          searchPlaceholder: "Di lîsteyê de li xwarinekê bigere...",
+          scrollHeading: "Ceribandina tevgera logoyê",
+          scrollIntro:
+            "Ber bi jêr ve here, paşê vegere jorê da ku tevgera logo bibînî.",
+          scrollFooter: "Ji bo ceribandinê jor û jêr here",
+          demoCats: [
+            "Xwarinên sereke",
+            "Pêşxwarin û salat",
+            "Vexwarin",
+            "Şîrînî",
+            "Qehwe",
+            "Xwarinên taybet",
+          ],
+          demoDescs: [
+            "Xwarinên bi baldarî û bi pêkhateyên nû hatine amadekirin.",
+            "Cureyên cuda yên pêşxwarin û salatên nû.",
+            "Cureyên vexwarinên sar û germ.",
+            "Şîrîniyên xweş ji bo temamkirina ezmûna we.",
+            "Qehweya bijartî ji bo hezkiriyên qehweyê.",
+            "Hilbijartinên taybet ji metbexa me.",
+          ],
+        },
+      };
+      /* MENU OPEN / CLOSE */
+      function setMenu(open) {
+        menuOpen = open;
+        barWrap.classList.toggle("is-open", open);
+        navToggle.setAttribute("aria-expanded", String(open));
+        navToggle.setAttribute(
+          "aria-label",
+          open
+            ? translations[currentLanguage].closeMenu
+            : translations[currentLanguage].openMenu,
+        );
+        if (!open) {
+          languageMenu.classList.remove("visible");
+        }
+      }
+      navToggle.addEventListener("click", () => {
+        setMenu(!menuOpen);
+      });
+      /* LANGUAGE CHANGE */
+      function changeLanguage(lang) {
+        const t = translations[lang];
+        if (!t) return;
+        currentLanguage = lang;
+        screen.classList.add("direction-changing");
+        document.documentElement.lang = lang;
+        document.documentElement.dir = t.dir;
+        phone.dir = t.dir;
+        screen.dir = t.dir;
+        // Top bar
+        document.getElementById("menuTitle").textContent = "Menu";
+        navToggle.setAttribute(
+          "aria-label",
+          menuOpen ? t.closeMenu : t.openMenu,
+        );
+        adminButton.title = t.admin;
+        adminButton.setAttribute("aria-label", t.admin);
+        languageButton.title = t.changeLanguage;
+        languageButton.setAttribute("aria-label", t.changeLanguage);
+        const isFullscreen = Boolean(document.fullscreenElement);
+        fullscreenButton.title = isFullscreen ? t.exitFullscreen : t.fullscreen;
+        fullscreenButton.setAttribute("aria-label", fullscreenButton.title);
+        const isDark = phone.classList.contains("dark");
+        themeButton.title = isDark ? t.lightMode : t.darkMode;
+        themeButton.setAttribute("aria-label", themeButton.title);
+        // Hero
+        heroTitle.textContent = t.restaurant;
+        heroDescription.textContent = t.description;
+        // Restaurant status and location (sample preview data)
+        document.getElementById("statusLabel").textContent = t.statusLabel;
+        const statusElement = document.getElementById("restaurantStatus");
+        statusElement.textContent = restaurantInfo.isOpen
+          ? t.statusOpen
+          : t.statusClosed;
+        statusElement.classList.toggle("is-open", restaurantInfo.isOpen);
+        statusElement.classList.toggle("is-closed", !restaurantInfo.isOpen);
+        document.getElementById("locationLabel").textContent = t.locationLabel;
+        document.getElementById("restaurantLocation").textContent =
+          t.locationValue;
+        // Search
+        const menuSearchInput = document.getElementById("menuSearchInput");
+        menuSearchInput.placeholder = t.searchPlaceholder;
+        menuSearchInput.setAttribute("aria-label", t.searchPlaceholder);
+        // Scroll test content
+        document.getElementById("scrollHeading").textContent = t.scrollHeading;
+        document.getElementById("scrollIntro").textContent = t.scrollIntro;
+        document.getElementById("scrollFooter").textContent = t.scrollFooter;
+        for (let i = 0; i < 6; i++) {
+          document.getElementById(`demoCat${i + 1}`).textContent =
+            t.demoCats[i];
+          document.getElementById(`demoDesc${i + 1}`).textContent =
+            t.demoDescs[i];
+        }
+        // Modal
+        document.getElementById("modalTitle").textContent = t.modalTitle;
+        document.getElementById("modalDescription").textContent =
+          t.modalDescription;
+        modalClose.textContent = t.close;
+        // Language selector
+        document.querySelectorAll(".language-option").forEach((button) => {
+          button.classList.toggle("active", button.dataset.lang === lang);
+        });
+        languageMenu.classList.remove("visible");
+        window.setTimeout(() => {
+          screen.classList.remove("direction-changing");
+        }, 350);
+      }
+      languageButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+        languageMenu.classList.toggle("visible");
+      });
+      languageMenu.addEventListener("click", (event) => {
+        const option = event.target.closest("[data-lang]");
+        if (!option) return;
+        changeLanguage(option.dataset.lang);
+      });
+      /* DARK / LIGHT MODE */
+      themeButton.addEventListener("click", () => {
+        const isDark = phone.classList.toggle("dark");
+        const t = translations[currentLanguage];
+        themeButton.title = isDark ? t.lightMode : t.darkMode;
+        themeButton.setAttribute("aria-label", themeButton.title);
+      });
+      /* FULLSCREEN */
+      async function toggleFullscreen() {
+        try {
+          if (!document.fullscreenElement) {
+            await phone.requestFullscreen();
+          } else {
+            await document.exitFullscreen();
+          }
+        } catch (error) {
+          alert("قد لا يسمح المتصفح بملء الشاشة في هذه الحالة.");
+        }
+      }
+      fullscreenButton.addEventListener("click", toggleFullscreen);
+      document.addEventListener("fullscreenchange", () => {
+        const t = translations[currentLanguage];
+        const active = Boolean(document.fullscreenElement);
+        fullscreenButton.title = active ? t.exitFullscreen : t.fullscreen;
+        fullscreenButton.setAttribute("aria-label", fullscreenButton.title);
+      });
+      /* CONTROL PANEL PREVIEW */
+      adminButton.addEventListener("click", () => {
+        adminModal.classList.add("visible");
+      });
+      modalClose.addEventListener("click", () => {
+        adminModal.classList.remove("visible");
+      });
+      adminModal.addEventListener("click", (event) => {
+        if (event.target === adminModal) {
+          adminModal.classList.remove("visible");
+        }
+      });
+      /* CLOSE WHEN CLICKING OUTSIDE THE BAR */
+      document.addEventListener("click", (event) => {
+        if (!barWrap.contains(event.target)) {
+          setMenu(false);
+        }
+      });
+      /* CLOSE WITH ESCAPE */
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          setMenu(false);
+          adminModal.classList.remove("visible");
+          languageMenu.classList.remove("visible");
+        }
+      });
+      /* LOGO SCROLL BEHAVIOR */
+      screen.addEventListener(
+        "scroll",
+        () => {
+          const currentScroll = screen.scrollTop;
+          if (currentScroll <= 5) {
+            phone.classList.remove("logo-compact");
+          } else if (currentScroll > lastScrollTop + 1) {
+            phone.classList.add("logo-compact");
+          } else if (currentScroll < lastScrollTop - 1) {
+            phone.classList.remove("logo-compact");
+          }
+          lastScrollTop = currentScroll;
+          if (menuOpen) {
+            setMenu(false);
+          }
+        },
+        { passive: true },
+      );
+      /* HERO SLIDER */
+      function showSlide(index) {
+        if (heroSlides.length <= 1) return;
+        currentSlide = (index + heroSlides.length) % heroSlides.length;
+        heroSlides.forEach((slide, i) => {
+          slide.classList.toggle("active", i === currentSlide);
+        });
+        heroDots.forEach((dot, i) => {
+          dot.classList.toggle("active", i === currentSlide);
+        });
+      }
+      function stopAutoplay() {
+        if (autoplayTimer) {
+          clearInterval(autoplayTimer);
+          autoplayTimer = null;
+        }
+      }
+      function startAutoplay() {
+        stopAutoplay();
+        if (reduceMotion || heroSlides.length <= 1) return;
+        autoplayTimer = setInterval(() => {
+          showSlide(currentSlide + 1);
+        }, 5000);
+      }
+      heroDots.forEach((dot) => {
+        dot.addEventListener("click", () => {
+          showSlide(Number(dot.dataset.slide));
+          startAutoplay();
+        });
+      });
+      /* TOUCH SWIPE */
+      hero.addEventListener(
+        "touchstart",
+        (event) => {
+          touchStartX = event.touches[0].clientX;
+        },
+        { passive: true },
+      );
+      hero.addEventListener(
+        "touchend",
+        (event) => {
+          const endX = event.changedTouches[0].clientX;
+          const difference = endX - touchStartX;
+          if (Math.abs(difference) < 45) return;
+          const isRTL = phone.dir === "rtl";
+          if (difference < 0) {
+            showSlide(currentSlide + (isRTL ? 1 : -1));
+          } else {
+            showSlide(currentSlide + (isRTL ? -1 : 1));
+          }
+          startAutoplay();
+        },
+        { passive: true },
+      );
+      /* PAUSE SLIDER WHEN TAB IS HIDDEN */
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+          stopAutoplay();
+        } else {
+          startAutoplay();
+        }
+      });
+      /* INITIALIZATION */
+      changeLanguage("ar");
+      showSlide(0);
+      startAutoplay();
+    </script>
+  </body>
+</html>
